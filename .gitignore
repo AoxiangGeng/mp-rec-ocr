@@ -1,0 +1,6 @@
+*.pyc
+*.log
+client.py
+err
+out
+nohup.out
