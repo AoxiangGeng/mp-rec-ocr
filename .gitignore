@@ -1,6 +1,6 @@
 *.pyc
 *.log
-client.py
+ylclient.py
 err
 out
 nohup.out

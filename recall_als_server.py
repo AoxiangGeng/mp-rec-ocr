@@ -59,10 +59,15 @@ readItemObj.close()
 global_userhash_feature = np.array(uvecList)
 global_itemhash_feature = np.array(vvecList)
 
-def cos_npsim(userNp, itemsNp):
+del uvecList
+del vvecList
+
+global_item_sss = np.sqrt(np.sum(np.square(global_itemhash_feature), 1))
+global_itemhash_feature_T = global_itemhash_feature.T
+
+def cos_npsim(userNp, itemsNpT, itemSSS):
     tmpUser = np.sqrt(np.sum(np.square(userNp)))
-    tmpItem = np.sqrt(np.sum(np.square(itemsNp), 1))
-    return np.dot(userNp, itemsNp.T) / (1.0+tmpUser * tmpItem)
+    return np.dot(userNp, itemsNpT) / (1.0+tmpUser * itemSSS)
 
 class ServiceHandler(object):
 
@@ -117,7 +122,7 @@ class ServiceHandler(object):
             idxUid = CityHash32(udid) % 10000000
             if idxUid in global_useridx_map:
                 tmpUserVec = global_userhash_feature[global_useridx_map.get(idxUid)]
-                tmpItemScore = cos_npsim(tmpUserVec, global_itemhash_feature)
+                tmpItemScore = cos_npsim(tmpUserVec, global_itemhash_feature_T, global_item_sss)
                 rltItemIdx = np.argsort(-tmpItemScore) 
                 for idx in rltItemIdx[:3000]:
                     content_id = global_idxitem_map[idx]
