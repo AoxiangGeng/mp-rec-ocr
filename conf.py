@@ -29,7 +29,7 @@ localIP = get_ip_address('eth0')
 print localIP
 
 log_format = '%%(asctime)s %s %%(thread)d %%(levelname)-5s %%(message)s' % localIP
-server_thread_num = 8
+server_thread_num = 4
 prometheus_port = 8080
 debug = False
 
