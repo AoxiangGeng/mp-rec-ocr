@@ -48,7 +48,7 @@ for line in readItemObj:
     rmdList = tokens[1].split(",")
     for key in rmdList:
        if key=="11":
-          global_safecid_map[vid] = 1
+          global_safecid_map[long(vid)] = 1
           break
     vec_str= tokens[2]
     vector = [float(t) for t in vec_str.split(",")]
