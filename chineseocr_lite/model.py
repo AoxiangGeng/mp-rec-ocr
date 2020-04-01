@@ -132,7 +132,9 @@ def text_predict(img):
 
 if __name__ == "__main__":
     #ocr检测并识别work_path下的所有png图片，并打印结果
-    work_path = '/Users/alex/Desktop/yixia/Projects/Personal_Temporary_Repo/videoshots/'
+    start_time = time.time()
+    #work_path = '/Users/alex/Desktop/yixia/Projects/Personal_Temporary_Repo/videoshots/'
+    work_path = '/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/'
     for img_name in os.listdir(work_path):
         if img_name.endswith('png'):
             print('img_name : ',img_name)

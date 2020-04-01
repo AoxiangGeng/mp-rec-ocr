@@ -41,7 +41,7 @@ class Client(threading.local):
 def gen_req():
 
     return Req(
-        location = None
+        location = '/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6636999244068691968_1.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_5.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_7.png'
     )
 
 
@@ -49,7 +49,7 @@ def print_result(rsp, count=20):
     print(rsp.videoLocation)
     for item in enumerate(rsp.predictions[:count]):
         line = 'text : {}, weight : ;'.format(item.text,item.weight)
-        print line
+        print(line)
 
 def main():
     req = gen_req()
@@ -61,12 +61,12 @@ def main():
     port = int(conf.port[0])
     num = 1
     client = Client(host, port)
-    for i in xrange(num):
-      rsp = client.get_cids(req)
+    #for i in range(num):
+    rsp = client.get_cids(req)
     tt2 = datetime.datetime.now()
     print_result(rsp, 30)
     # print 'return:', rsp
-    print '[ client ] request num',(num),'costtime', tt2 - tt1, 'udid:', req.user.uid, 'result_len=', len(rsp.video_list)
+    #print('[ client ] request num',(num),'costtime', tt2 - tt1, 'udid:', req.user.uid, 'result_len=', len(rsp.video_list))
 
 if __name__ == '__main__':
     main()

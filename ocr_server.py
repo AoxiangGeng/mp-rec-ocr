@@ -19,7 +19,7 @@ sys.path.append("chineseocr_lite")
 
 import conf as vulgar_conf
 from cityhash import CityHash32
-from pytools.program.log import init_logging
+# from pytools.program.log import init_logging
 from thrift_common.py_iface.ocr_lite_prediction import Ocr_Lite_Prediction
 from thrift_common.py_iface.ocr_lite_prediction.ttypes import Rsp, OcrPrediction
 from thrift.protocol import TBinaryProtocol
@@ -27,9 +27,10 @@ from thrift.server.TProcessPoolServer import TProcessPoolServer
 from thrift.transport import TSocket, TTransport
 from prometheus_def import *
 from model import *
+from model import text_predict
 
-free_worker_count = multiprocessing.Value('i')
-print(free_worker_count)
+# free_worker_count = multiprocessing.Value('i')
+# print(free_worker_count)
 
 
 
@@ -41,8 +42,8 @@ class ServiceHandler(object):
         self.name = 'ocr'
 
     def get(self, req):
-        with free_worker_count.get_lock():
-            free_worker_count.value -= 1
+        #with free_worker_count.get_lock():
+        #    free_worker_count.value -= 1
 
         # initialization
         result_list = []
@@ -57,8 +58,8 @@ class ServiceHandler(object):
             locations = req.location
             video_list = locations.strip().split(',')
             start_time = time.time()
-
-            for img_name in os.listdir(video_list):
+            print('{} videoshots to be processed......'.format(len(video_list)))
+            for img_name in video_list:
                 if img_name.endswith('png') or img_name.endswith('jpg'):
                     print('img_name : ',img_name)
                     #读取图像并转成黑白格式
@@ -67,25 +68,35 @@ class ServiceHandler(object):
                     img = np.array(img_gray,dtype=np.float32)
                     print('image shape : ', img.shape)
                     #识别
-                    result = model.text_predict(img)
+                    result = text_predict(img)
                     #打印识别结果
+                    if len(result) == 0:
+                        print('Empty image')
+                        continue
                     for item in result:
-                        print('location : x--{}, y--{}, width--{}, height--{}'.format(item['cx'], item['cy'], item['w'], item['h']))
-                        print('rotation degree : ', item['degree'])
-                        print('text : ', item['text'])
+                        #print('location : x--{}, y--{}, width--{}, height--{}'.format(item['cx'], item['cy'], item['w'], item['h']))
+                        #print('rotation degree : ', item['degree'])
+                        #print('text : ', item['text'])
                         tmp = OcrPrediction(degree = item['degree'], location = [item['cx'], item['cy']], width = item['w'], \
                                       height = item['h'], text = item['text'], weight = 1.0)
                         global_counts += 1
-                        if len(result_list) != 0:
-                            for pred in result_list:
+                        if len(result_list) == 0:
+                            result_list.append(tmp)
+                            global_width.append(tmp.width)
+                            global_height.append(tmp.height)
+                            global_square.append(tmp.width*tmp.height)
+                        else:
+                            for i in range(len(result_list)):
                                 #统计text出现频次
-                                if pred.text.strip() == tmp.text.strip():
-                                    pred.weight += 1
-                                else:
-                                    result_list.append(tmp)
-                                    global_width.append(tmp.width)
-                                    global_height.append(tmp.height)
-                                    global_square.append(tmp.width*tmp.height)
+                                if result_list[i].text.strip() == tmp.text.strip():
+                                    result_list[i].weight += 1
+                                    i = -1
+                                    break
+                            if i == len(result_list) - 1:
+                                result_list.append(tmp)
+                                global_width.append(tmp.width)
+                                global_height.append(tmp.height)
+                                global_square.append(tmp.width*tmp.height)
             global_square = np.array(global_square,dtype=np.float32)
             MEAN = np.mean(global_square)
             GAP = np.max(global_square) - np.min(global_square)
@@ -95,24 +106,25 @@ class ServiceHandler(object):
                     square = pred.width * pred.height
                     pred.weight = (pred.weight / global_counts) + ((square - MEAN) / GAP)
             print('Time consumed for ocr prediction: ', float(time.time()-start_time))
-
+            #依照权重大小对结果降序排列
+            results = sorted(result_list, key = lambda x:x.weight , reverse=True)
             #返回的视频存在result_list中
-            print("result return to client: ", result_list)
+            print("result return to client: ", results)
 
         except Exception as e:
-            FAIL_COUNT.inc()
+            #FAIL_COUNT.inc()
             print('api:%s', e)
             print(traceback.format_exc())
 
-        with free_worker_count.get_lock():
-            free_worker_count.value += 1
+        # with free_worker_count.get_lock():
+        #     free_worker_count.value += 1
 
         end_time = time.time()
-        if not result_list:
-            RETURN_EMPTY_COUNT.inc()
-
+        if not results:
+            #RETURN_EMPTY_COUNT.inc()
+            print('the result list is empty')
         sys.stdout.flush()
-        return Rsp(predictions=result_list)
+        return Rsp(predictions=results)
 
 
 # sort video by weight
@@ -126,16 +138,16 @@ def debug(sig, frame):
     d.update(frame.f_globals)  # Unless shadowed by global
     d.update(frame.f_locals)
 
-    message = "Debug Signal received : \nTraceback:\n"
-    message += ''.join(traceback.format_stack(frame))
-    with open("user1.log", "w") as f:
-        f.write(message)
+    # message = "Debug Signal received : \nTraceback:\n"
+    # message += ''.join(traceback.format_stack(frame))
+    # with open("user1.log", "w") as f:
+    #     f.write(message)
 
 
 def exit_signal_handler(sig=None, frame=None):
     #从数字中获取信号名称
     signal_names = dict(
-        (k, v) for v, k in signal.__dict__.iteritems() if v.startswith('SIG'))
+        (k, v) for v, k in signal.__dict__.items() if v.startswith('SIG'))
     print('catch signal %s, exit ...', signal_names.get(sig, sig))
     #终止所有子进程
     while (multiprocessing.active_children()):
@@ -163,10 +175,10 @@ def main():
 
     service_name = 'ocr_prediction_service'
 
-    init_logging(vulgar_conf)
+    # init_logging(vulgar_conf)
 
-    global free_worker_count
-    free_worker_count.value = vulgar_conf.server_thread_num
+    # global free_worker_count
+    # free_worker_count.value = vulgar_conf.server_thread_num
 
     gc.set_threshold(20000, 10, 10)
 
@@ -174,7 +186,7 @@ def main():
     handler = ServiceHandler(vulgar_conf)
     port = int(vulgar_conf.port[0]) if isinstance(
         vulgar_conf.port, list) else int(vulgar_conf.port)
-    processor = Recommend.Processor(handler)
+    processor = Ocr_Lite_Prediction.Processor(handler)
     transport = TSocket.TServerSocket(port=port)
     tfactory = TTransport.TFramedTransportFactory()
     pfactory = TBinaryProtocol.TBinaryProtocolFactory()
@@ -190,3 +202,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

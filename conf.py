@@ -25,10 +25,10 @@ console_log_level = logging.ERROR
 scribe_log_level = logging.ERROR
 log_file = 'text_server.py.log'
 log_category = '.'
-localIP = get_ip_address('eth0')
-print (localIP)
+#localIP = get_ip_address('eth0')
+#print (localIP)
 
-log_format = '%%(asctime)s %s %%(thread)d %%(levelname)-5s %%(message)s' % localIP
+log_format = '%%(asctime)s %s %%(thread)d %%(levelname)-5s %%(message)s'  
 server_thread_num = 4
 prometheus_port = 8080
 debug = False

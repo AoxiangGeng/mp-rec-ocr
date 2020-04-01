@@ -1,6 +1,6 @@
 import os, signal, time, logging, multiprocessing
 
-signal_names = {k: v for v, k in signal.__dict__.iteritems() if v.startswith('SIG')}
+signal_names = {k: v for v, k in signal.__dict__.items() if v.startswith('SIG')}
 def exit_signal_handler(sig=None, frame=None):
     # !!!WARNING
     # logging in a signal handler is strongly not recommended!
