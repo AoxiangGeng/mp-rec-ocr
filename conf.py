@@ -26,7 +26,7 @@ scribe_log_level = logging.ERROR
 log_file = 'text_server.py.log'
 log_category = '.'
 localIP = get_ip_address('eth0')
-print localIP
+print (localIP)
 
 log_format = '%%(asctime)s %s %%(thread)d %%(levelname)-5s %%(message)s' % localIP
 server_thread_num = 4
