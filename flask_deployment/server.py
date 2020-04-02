@@ -102,8 +102,8 @@ def test():
     # response = {'message': 'Data type:{},Shape:{}'.format(type(numpy_data), numpy_data.shape)}
     # response_pickled = json.dumps(response)
     # return Response(response=response_pickled, status=200, mimetype="application/json")
- 
-"""*************"""
+
+
     # initialization
     result_list = []
     global_width = []
@@ -188,7 +188,7 @@ def test():
     return Response(response=Rsp(predictions=results), status=200, mimetype="application/json")
     # return Rsp(predictions=results)
 
-"""*************"""
+
 
 
 
