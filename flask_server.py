@@ -118,7 +118,7 @@ def test():
         # basic context build
         print('Start ##############')
         print(request)
-        print(request.data)
+        print(type(request.data), request)
         r = request.data
         rj = json.loads(r)
         locations = rj['location']
