@@ -119,9 +119,9 @@ def test():
         print('Start ##############')
         print(request)
         print(type(request.data.decode()), request)
-        r = request.data.decode()
-        rj = json.loads(r)
-        locations = rj['location']
+        locations = request.data.decode()
+        # rj = json.loads(r)
+        # locations = rj['location']
         # locations = json.loads(request.json.decode())['location']
         print('locations : ', 'location')
         video_list = locations.strip().split(',')
