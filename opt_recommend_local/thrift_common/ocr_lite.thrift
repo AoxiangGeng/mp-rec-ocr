@@ -6,6 +6,7 @@ struct OcrPrediction{
     3: double width;
     4: double height;
     5: string text;
+    6: double weight;
 }
 
 struct Req{
