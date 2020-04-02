@@ -119,13 +119,13 @@ def text_predict(img):
     #封装Detection+Classification两部分，读取图片进行ocr识别,图片需提前转成黑白格式
     # img = cv2.imread(imgpath)
     preds, boxes_list, rects_re, t = text_handle.predict(img, long_size=pse_long_size)
-
+    #print('Processing img : ', img)
 
     img2 = draw_bbox(img, boxes_list, color=(0, 255, 0))
-    cv2.imwrite("debug_im/draw.jpg", img2)
-
+    #cv2.imwrite("debug_im/draw.jpg", img2)
+    #print('Processing img : ', img)
     result = crnnRec(np.array(img), rects_re)
-
+    #print('Processing img : ', img)
     return result
 
 
