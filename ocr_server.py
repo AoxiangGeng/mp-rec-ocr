@@ -20,8 +20,8 @@ sys.path.append("chineseocr_lite")
 import conf as vulgar_conf
 from cityhash import CityHash32
 # from pytools.program.log import init_logging
-from thrift_common.py_iface.Ocr_Lite_Prediction import Ocr_Lite_Prediction
-from thrift_common.py_iface.Ocr_Lite_Prediction.ttypes import Rsp, OcrPrediction
+from thrift_common.py_iface.ocr_lite_prediction import Ocr_Lite_Prediction
+from thrift_common.py_iface.ocr_lite_prediction.ttypes import Rsp, OcrPrediction
 from thrift.protocol import TBinaryProtocol
 from thrift.server.TProcessPoolServer import TProcessPoolServer
 from thrift.transport import TSocket, TTransport

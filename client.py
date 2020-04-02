@@ -17,8 +17,8 @@ import conf
 
 sys.path.append("opt_recommend_local")
 from pytools.thrift.transport import SocketPool
-from thrift_common.py_iface.Ocr_Lite_Prediction import Ocr_Lite_Prediction
-from thrift_common.py_iface.Ocr_Lite_Prediction.ttypes import Req, Rsp, OcrPrediction
+from thrift_common.py_iface.ocr_lite_prediction import Ocr_Lite_Prediction
+from thrift_common.py_iface.ocr_lite_prediction.ttypes import Req, Rsp, OcrPrediction
 from thrift.protocol import TBinaryProtocol
 from thrift.transport import TSocket, TTransport
 class Client(threading.local):
