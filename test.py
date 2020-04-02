@@ -154,7 +154,17 @@ class ServiceHandler(object):
                     img = np.array(img_gray,dtype=np.float32)
                     print('image shape : ', img.shape)
                     #识别
-                    result = text_predict(img)
+
+                    
+                    preds, boxes_list, rects_re, t = text_handle.predict(img, long_size=pse_long_size)
+                    #print('Processing img : ', img)
+
+                    img2 = draw_bbox(img, boxes_list, color=(0, 255, 0))
+                    #cv2.imwrite("debug_im/draw.jpg", img2)
+                    #print('Processing img : ', img)
+                    result = crnnRec(np.array(img), rects_re)
+
+
                     #打印识别结果
                     if len(result) == 0:
                         print('Empty image')
