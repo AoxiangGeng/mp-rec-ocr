@@ -26,8 +26,15 @@ from thrift.protocol import TBinaryProtocol
 from thrift.server.TProcessPoolServer import TProcessPoolServer
 from thrift.transport import TSocket, TTransport
 from prometheus_def import *
-from model import *
-from model import text_predict
+# from model import *
+# from model import text_predict
+
+from config import  *
+from crnn import FullCrnn,LiteCrnn,CRNNHandle
+from  psenet import  PSENet,PSENetHandel
+from angle_class import  AangleClassHandle,shufflenet_v2_x0_5
+from utils import  rotate_cut_img,solve,sort_box,draw_bbox,crop_rect
+from PIL import Image
 
 # free_worker_count = multiprocessing.Value('i')
 # print(free_worker_count)
@@ -201,5 +208,39 @@ def main():
 
 
 if __name__ == '__main__':
+    if  pse_model_type == "mobilenetv2":
+        text_detect_net = PSENet(backbone=pse_model_type, pretrained=False, result_num=6, scale=pse_scale)
+
+
+    text_handle = PSENetHandel(pse_model_path, text_detect_net, pse_scale, gpu_id=GPU_ID)
+    crnn_net = None
+
+    if crnn_type == "full_lstm" or crnn_type == "full_dense":
+        crnn_net  = FullCrnn(32, 1, len(alphabet) + 1, nh, n_rnn=2, leakyRelu=False, lstmFlag=LSTMFLAG)
+    elif crnn_type == "lite_lstm" or crnn_type == "lite_dense":
+        crnn_net =  LiteCrnn(32, 1, len(alphabet) + 1, nh, n_rnn=2, leakyRelu=False, lstmFlag=LSTMFLAG)
+
+
+
+    assert  crnn_type is not None
+    crnn_handle  =  CRNNHandle(crnn_model_path , crnn_net , gpu_id=GPU_ID)
+
+    crnn_vertical_handle = None
+    if crnn_vertical_model_path is not None:
+        crnn_vertical_net = LiteCrnn(32, 1, len(alphabet) + 1, nh, n_rnn=2, leakyRelu=False, lstmFlag=True)
+        crnn_vertical_handle = CRNNHandle(crnn_vertical_model_path , crnn_vertical_net , gpu_id=GPU_ID)
+
+
+    assert angle_type in ["shufflenetv2_05"]
+
+
+
+    if angle_type == "shufflenetv2_05":
+        angle_net = shufflenet_v2_x0_5(num_classes=len(lable_map_dict), pretrained=False)
+
+
+    angle_handle = AangleClassHandle(angle_model_path,angle_net,gpu_id=GPU_ID)
+    print('Model has been loaded......')
+
     main()
 
