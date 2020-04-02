@@ -190,7 +190,7 @@ def test():
         if len(result_list) != 0:
             for pred in result_list:
                 square = pred.width * pred.height
-                pred.weight = (pred.weight / global_counts) + ((square - MEAN) / GAP)
+                pred.weight = ((pred.weight / global_counts) + ((square - MEAN) / GAP) + 1) / 2
         print('Time consumed for ocr prediction: ', float(time.time()-start_time))
         #依照权重大小对结果降序排列
         results = sorted(result_list, key = lambda x:x.weight , reverse=False)
