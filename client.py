@@ -23,7 +23,7 @@ from thrift.protocol import TBinaryProtocol
 from thrift.transport import TSocket, TTransport
 class Client(threading.local):
 
-    def __init__(self, host, port, timeout=30.0, conn_timeout=1):
+    def __init__(self, host, port, timeout=15.0, conn_timeout=1):
         transport = SocketPool.TSocketPool(host, port, timeout, conn_timeout)
         transport = TTransport.TFramedTransport(transport)
         protocol = TBinaryProtocol.TBinaryProtocol(transport)

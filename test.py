@@ -158,7 +158,6 @@ class ServiceHandler(object):
 
                     preds, boxes_list, rects_re, t = text_handle.predict(img, long_size=pse_long_size)
                     #print('Processing img : ', img)
-
                     img2 = draw_bbox(img, boxes_list, color=(0, 255, 0))
                     #cv2.imwrite("debug_im/draw.jpg", img2)
                     #print('Processing img : ', img)
@@ -306,7 +305,6 @@ if __name__ == '__main__':
     # print(pse_model_path, text_detect_net, pse_scale)
     text_handle = PSENetHandel(pse_model_path, text_detect_net, pse_scale, gpu_id=GPU_ID)
     crnn_net = None
-    print('type(text_handle) : ' , type(text_handle))
     if crnn_type == "full_lstm" or crnn_type == "full_dense":
         crnn_net  = FullCrnn(32, 1, len(alphabet) + 1, nh, n_rnn=2, leakyRelu=False, lstmFlag=LSTMFLAG)
     elif crnn_type == "lite_lstm" or crnn_type == "lite_dense":
