@@ -25,7 +25,7 @@ class PSENetHandel():
         else:
             self.device = torch.device("cpu")
         self.net = torch.load(model_path, map_location=self.device)['state_dict']
-        print('device:', self.device)
+        # print('device:', self.device)
 
         # for k in net.state_dict():
         #     print(k)
@@ -91,23 +91,23 @@ class PSENetHandel():
         img /= 255.0
         img -= np.array((0.485, 0.456, 0.406))
         img /= np.array((0.229, 0.224, 0.225))
-        print('开始识别图片 4')
+        # print('开始识别图片 4')
         tensor = transforms.ToTensor()(img)
-        print('开始识别图片 5')
+        # print('开始识别图片 5')
         tensor = tensor.unsqueeze_(0)
-        print(tensor.shape,tensor.device)
-        print('开始识别图片 device : ', self.device)
+        # print(tensor.shape,tensor.device)
+        # print('开始识别图片 device : ', self.device)
         # tensor = tensor.to(self.device)
-        print('喂入模型，进行预测')
+        # print('喂入模型，进行预测')
         with torch.no_grad():
             # torch.cuda.synchronize()
             start = time.time()
-            print('进入循环')
+            # print('进入循环')
             # print(self.net)
             preds = self.net(Variable(tensor))
-            print('将数据tensor输入模型net，计算结果')
+            # print('将数据tensor输入模型net，计算结果')
             preds, boxes_list,rects  =  pse_decode(preds[0], self.scale)
-            print('生成  preds')
+            # print('生成  preds')
             scale = (preds.shape[1] / w, preds.shape[0] / h)
             # print(scale)
             # preds, boxes_list = decode(preds,num_pred=-1)
