@@ -1,7 +1,7 @@
 import requests
 import numpy as np
 import json
-
+import sys
 
 sys.path.append("../opt_recommend_local")
 sys.path.append("../chineseocr_lite")
