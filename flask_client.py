@@ -28,7 +28,8 @@ location = '/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6636999
  
 response = requests.post(test_url, data=location, headers=headers)
 
-print(response.text)
+rsp = response.text.decode('utf-8').encode('gbk')
+print(rsp)
 # print(response.videoLocation)
 # for item in enumerate(response.predictions[:5]):
 #     line = 'text : {}, weight : ;'.format(item.text,item.weight)
