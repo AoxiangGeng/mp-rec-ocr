@@ -100,6 +100,8 @@ class PSENetHandel():
         with torch.no_grad():
             # torch.cuda.synchronize()
             start = time.time()
+            print('进入循环')
+            print(self.net)
             preds = self.net(tensor)
             print('net 生成')
             preds, boxes_list,rects  =  pse_decode(preds[0], self.scale)
