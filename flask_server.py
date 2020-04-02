@@ -199,7 +199,7 @@ def test():
 
         outputs = {}
         for item in results:
-            optput[item.text] = item.weight
+            outputs[item.text] = item.weight
 
     except Exception as e:
         #FAIL_COUNT.inc()
