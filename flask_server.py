@@ -117,7 +117,12 @@ def test():
         #从实时的request中获取信息
         # basic context build
         print('Start ##############')
-        locations = json.loads(request.json.decode())['location']
+        print(request)
+        print(request.json)
+        r = request.json
+        rj = json.loads(r)
+        locations = rj['location']
+        # locations = json.loads(request.json.decode())['location']
         print('locations : ', 'location')
         video_list = locations.strip().split(',')
         start_time = time.time()
