@@ -20,8 +20,8 @@ sys.path.append("chineseocr_lite")
 #from prometheus_def import *
 from model import *
 from model import text_predict
-from thrift_common.py_iface.ocr_lite_prediction import Ocr_Lite_Prediction
-from thrift_common.py_iface.ocr_lite_prediction.ttypes import Rsp, OcrPrediction
+from thrift_common.py_iface.Ocr_Lite_Prediction import Ocr_Lite_Prediction
+from thrift_common.py_iface.Ocr_Lite_Prediction.ttypes import Rsp, OcrPrediction
 
 
 
