@@ -3,8 +3,8 @@ import numpy as np
 import json
 import sys
 
-sys.path.append("../opt_recommend_local")
-sys.path.append("../chineseocr_lite")
+sys.path.append("opt_recommend_local")
+sys.path.append("chineseocr_lite")
 from thrift_common.py_iface.ocr_lite_prediction import Ocr_Lite_Prediction
 from thrift_common.py_iface.ocr_lite_prediction.ttypes import Req, Rsp, OcrPrediction
 
