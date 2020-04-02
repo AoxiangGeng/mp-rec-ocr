@@ -197,13 +197,17 @@ def test():
         #返回的视频存在result_list中
         print("result return to client: ", results)
 
+        outputs = {}
+        for item in results:
+            optput[item.text] = item.weight
+
     except Exception as e:
         #FAIL_COUNT.inc()
         print('api:%s', e)
         print(traceback.format_exc())
     
 
-    return Response(response=json.dumps(results), status=200, mimetype="application/json")
+    return Response(response=json.dumps(outputs), status=200, mimetype="application/json")
     # return Rsp(predictions=results)
 
 

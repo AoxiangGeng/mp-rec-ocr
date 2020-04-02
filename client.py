@@ -41,7 +41,12 @@ class Client(threading.local):
 def gen_req():
 
     return Req(
-        location = '/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6636999244068691968_1.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_5.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_7.png'
+        location = '/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6636999244068691968_1.png,\
+        /home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506254450397184_2.png,\
+        /home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_7.png,\
+        /home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/UXCeQqJFHxTVyViXtG9xHbBWeUTjAeaYIHopQg___2,\
+        /home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/BGCRZU1039g03fWkyUUy3sd6uiUBJBnh8sHqXw___1,\
+        /home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/EVWquiYWCyWMQEPF8BkM4au-_aXoq5DtWutDxg___11'
     )
 
 
