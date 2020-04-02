@@ -116,6 +116,7 @@ def test():
     try:
         #从实时的request中获取信息
         # basic context build
+        print('Start ##############')
         locations = json.loads(request.json)['location']
         print('locations : ', 'location')
         video_list = locations.strip().split(',')
@@ -233,7 +234,7 @@ if __name__ == '__main__':
     print('Model has been loaded......')
 
 
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
 
 
 
