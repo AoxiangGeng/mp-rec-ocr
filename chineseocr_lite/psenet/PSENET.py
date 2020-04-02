@@ -60,7 +60,7 @@ class PSENetHandel():
         # print('开始识别图片')
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         h, w = img.shape[:2]
-        print('开始识别图片 1')
+        # print('开始识别图片 1')
         if h > w:
             scale_h = long_size / h
             tar_w = w * scale_h
@@ -76,7 +76,7 @@ class PSENetHandel():
             scale_h = tar_h / h
 
         # scale = long_size / max(h, w)
-        print('开始识别图片 2')
+        # print('开始识别图片 2')
         img = cv2.resize(img, None, fx=scale_w, fy=scale_h)
 
         # 将图片由(w,h)变为(1,img_channel,h,w)
@@ -85,14 +85,16 @@ class PSENetHandel():
         # tensor = transforms.ToTensor()(img)
         # tensor = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])(tensor)
         #
-        print('开始识别图片 3')
+        # print('开始识别图片 3')
         img = img.astype(np.float32)
         img /= 255.0
         img -= np.array((0.485, 0.456, 0.406))
         img /= np.array((0.229, 0.224, 0.225))
         print('开始识别图片 4')
         tensor = transforms.ToTensor()(img)
+        print('开始识别图片 5')
         tensor = tensor.unsqueeze_(0)
+        print('开始识别图片 6')
         tensor = tensor.to(self.device)
         print('喂入模型，进行预测')
         with torch.no_grad():
