@@ -5,6 +5,8 @@ import cv2
 import time
 import numpy as np
 
+from torch.autograd import Variable
+
 from .pse import decode as pse_decode
 
 
@@ -102,7 +104,7 @@ class PSENetHandel():
             start = time.time()
             print('进入循环')
             # print(self.net)
-            preds = self.net(tensor)
+            preds = self.net(Variable(tensor))
             print('将数据tensor输入模型net，计算结果')
             preds, boxes_list,rects  =  pse_decode(preds[0], self.scale)
             print('生成  preds')
