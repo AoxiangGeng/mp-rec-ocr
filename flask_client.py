@@ -27,7 +27,7 @@ locations = {'location':'/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/video
  
 response = requests.post(test_url, data=locations, headers=headers)
 
-print(rsp.videoLocation)
+print(response.videoLocation)
 for item in enumerate(response.predictions[:5]):
     line = 'text : {}, weight : ;'.format(item.text,item.weight)
     print(line)
