@@ -15,6 +15,86 @@ from PIL import Image
 
 app = Flask(__name__)
  
+def crnnRec(im, rects_re, leftAdjust=False, rightAdjust=False, alph=0.2, f=1.0):
+    """
+    crnn模型，ocr识别
+    @@model,
+    @@converter,
+    @@im:Array
+    @@text_recs:text box
+    @@ifIm:是否输出box对应的img
+
+    """
+    results = []
+    im = Image.fromarray(im)
+    for index, rect in enumerate(rects_re):
+
+        degree, w, h, cx, cy = rect
+
+
+        # partImg, newW, newH = rotate_cut_img(im,  90  + degree  , cx, cy, w, h, leftAdjust, rightAdjust, alph)
+        partImg = crop_rect(im,  ((cx, cy ),(h, w),degree))
+        newW,newH = partImg.size
+        partImg_array  = np.uint8(partImg)
+
+        #
+        if newH > 1.5* newW:
+            partImg_array = np.rot90(partImg_array,1)
+
+        # partImg = Image.fromarray(partImg_array).convert("RGB")
+
+        # partImg.save("./debug_im/{}.jpg".format(index))
+
+        angel_index = angle_handle.predict(partImg_array)
+
+        angel_class = lable_map_dict[angel_index]
+        # print(angel_class)
+        rotate_angle = rotae_map_dict[angel_class]
+
+
+        if rotate_angle != 0 :
+            partImg_array = np.rot90(partImg_array,rotate_angle//90)
+        
+
+
+
+
+        partImg = Image.fromarray(partImg_array).convert("RGB")
+        #
+        # partImg.save("./debug_im/{}.jpg".format(index))
+        
+        partImg_ = partImg.convert('L')
+
+        try:
+
+            if crnn_vertical_handle is not None and angel_class in ["shudao", "shuzhen"]:
+
+                simPred =  crnn_vertical_handle.predict(partImg_)
+            else:
+                simPred = crnn_handle.predict(partImg_)  ##识别的文本
+        except :
+            continue
+
+        if simPred.strip() != u'':
+            #定义结果为字典
+            results.append({'cx': cx * f, 'cy': cy * f, 'text': simPred, 'w': newW * f, 'h': newH * f,
+                            'degree': degree })
+    return results
+
+
+def text_predict(img):
+    #封装Detection+Classification两部分，读取图片进行ocr识别,图片需提前转成黑白格式
+    # img = cv2.imread(imgpath)
+    preds, boxes_list, rects_re, t = text_handle.predict(img, long_size=pse_long_size)
+    #print('Processing img : ', img)
+
+    img2 = draw_bbox(img, boxes_list, color=(0, 255, 0))
+    #cv2.imwrite("debug_im/draw.jpg", img2)
+    #print('Processing img : ', img)
+    result = crnnRec(np.array(img), rects_re)
+    #print('Processing img : ', img)
+    return result
+
  
 @app.route('/api/test', methods=['POST'])
 def test():
