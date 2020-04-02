@@ -116,7 +116,7 @@ def test():
     try:
         #从实时的request中获取信息
         # basic context build
-        locations = request.data[0]['location']
+        locations = request.data
         print('locations : ', 'location')
         video_list = locations.strip().split(',')
         start_time = time.time()
@@ -188,7 +188,7 @@ def test():
         print(traceback.format_exc())
     
 
-    return Response(response=Rsp(predictions=results), status=200, mimetype="application/json")
+    return Response(response=json.dumps(results), status=200, mimetype="application/json")
     # return Rsp(predictions=results)
 
 
