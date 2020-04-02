@@ -57,6 +57,7 @@ class PSENetHandel():
         '''
         # assert os.path.exists(img), 'file is not exists'
         # img = cv2.imread(img)
+        print('开始识别图片')
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         h, w = img.shape[:2]
 
@@ -92,6 +93,7 @@ class PSENetHandel():
         tensor = transforms.ToTensor()(img)
         tensor = tensor.unsqueeze_(0)
         tensor = tensor.to(self.device)
+        print('喂入模型，进行预测')
         with torch.no_grad():
             # torch.cuda.synchronize()
             start = time.time()
