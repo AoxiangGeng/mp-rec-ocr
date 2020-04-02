@@ -155,7 +155,7 @@ class ServiceHandler(object):
                     print('image shape : ', img.shape)
                     #识别
 
-                    
+
                     preds, boxes_list, rects_re, t = text_handle.predict(img, long_size=pse_long_size)
                     #print('Processing img : ', img)
 
@@ -302,7 +302,8 @@ if __name__ == '__main__':
     if  pse_model_type == "mobilenetv2":
         text_detect_net = PSENet(backbone=pse_model_type, pretrained=False, result_num=6, scale=pse_scale)
 
-
+    print('pse_model_path, text_detect_net, pse_scale')
+    print(pse_model_path, text_detect_net, pse_scale)
     text_handle = PSENetHandel(pse_model_path, text_detect_net, pse_scale, gpu_id=GPU_ID)
     crnn_net = None
 
