@@ -201,7 +201,7 @@ def test():
         for item in results:
             outputs[item.text] = item.weight
 
-        output = sorted(outputs, key=lambda x:x[1], reverse=True)
+        output = sorted(outputs.items(), key=lambda x:x[1], reverse=True)
 
     except Exception as e:
         #FAIL_COUNT.inc()
