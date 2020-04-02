@@ -118,8 +118,8 @@ def test():
         # basic context build
         print('Start ##############')
         print(request)
-        print(request.json)
-        r = request.json
+        print(request.data)
+        r = request.data
         rj = json.loads(r)
         locations = rj['location']
         # locations = json.loads(request.json.decode())['location']

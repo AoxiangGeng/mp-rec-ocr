@@ -25,7 +25,7 @@ headers = {'content-type': content_type}
 locations = {'location':'/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6636999244068691968_1.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_5.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_7.png'}
 js = json.dumps({'location':'/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6636999244068691968_1.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_5.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_7.png'})
  
-response = requests.post(test_url, json=js, headers=headers)
+response = requests.post(test_url, data=locations, headers=headers)
 
 print(response.text)
 # print(response.videoLocation)
