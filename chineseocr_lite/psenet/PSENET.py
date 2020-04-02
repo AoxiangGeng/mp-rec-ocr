@@ -28,7 +28,6 @@ class PSENetHandel():
         # for k in net.state_dict():
         #     print(k)
 
-
         if net is not None:
             # 如果网络计算图和参数是分开保存的，就执行参数加载
             net = net.to(self.device)
@@ -94,7 +93,8 @@ class PSENetHandel():
         tensor = transforms.ToTensor()(img)
         print('开始识别图片 5')
         tensor = tensor.unsqueeze_(0)
-        print('开始识别图片 6')
+        print('开始识别图片 device')
+        print(self.device)
         tensor = tensor.to(self.device)
         print('喂入模型，进行预测')
         with torch.no_grad():
