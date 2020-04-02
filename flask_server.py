@@ -1,8 +1,17 @@
 from flask import Flask, request, Response
-import numpy as np
-import json
 import sys
 import os
+import datetime
+import gc
+import json
+import math
+import multiprocessing
+import random
+import signal
+import time
+import traceback
+import numpy as np
+import cv2
 sys.path.append("opt_recommend_local")
 sys.path.append("chineseocr_lite")
 from thrift_common.py_iface.ocr_lite_prediction import Ocr_Lite_Prediction
@@ -10,7 +19,7 @@ from thrift_common.py_iface.ocr_lite_prediction.ttypes import Req, Rsp, OcrPredi
 
 from config import  *
 from crnn import FullCrnn,LiteCrnn,CRNNHandle
-from  psenet import  PSENet,PSENetHandel
+from psenet import  PSENet,PSENetHandel
 from angle_class import  AangleClassHandle,shufflenet_v2_x0_5
 from utils import  rotate_cut_img,solve,sort_box,draw_bbox,crop_rect
 from PIL import Image
@@ -123,7 +132,7 @@ def test():
         # rj = json.loads(r)
         # locations = rj['location']
         # locations = json.loads(request.json.decode())['location']
-        print('locations : ', 'location')
+        print('locations : ', locations)
         video_list = locations.strip().split(',')
         start_time = time.time()
         print('{} videoshots to be processed......'.format(len(video_list)))
