@@ -93,7 +93,7 @@ class PSENetHandel():
         tensor = transforms.ToTensor()(img)
         print('开始识别图片 5')
         tensor = tensor.unsqueeze_(0)
-        print(tensor.shape)
+        print(tensor.shape,tensor.device)
         print('开始识别图片 device : ', self.device)
         tensor = tensor.to(self.device)
         print('喂入模型，进行预测')
