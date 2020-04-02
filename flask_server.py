@@ -116,7 +116,7 @@ def test():
     try:
         #从实时的request中获取信息
         # basic context build
-        locations = request.location
+        locations = request.data['location']
         video_list = locations.strip().split(',')
         start_time = time.time()
         print('{} videoshots to be processed......'.format(len(video_list)))

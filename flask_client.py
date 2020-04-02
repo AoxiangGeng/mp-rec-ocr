@@ -22,10 +22,10 @@ test_url = addr + '/api/test'
 content_type = 'application/ocr'
 headers = {'content-type': content_type}
  
-locations = '/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6636999244068691968_1.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_5.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_7.png'
+locations = {'location':'/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6636999244068691968_1.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_5.png,/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6639506626095091712_7.png'}
 
  
-response = requests.post(test_url, location=locations)
+response = requests.post(test_url, data=locations, headers=headers)
 
 print(rsp.videoLocation)
 for item in enumerate(response.predictions[:5]):
