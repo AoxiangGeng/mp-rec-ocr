@@ -201,13 +201,15 @@ def test():
         for item in results:
             outputs[item.text] = item.weight
 
+        output = sorted(outputs, key=lambda x:x[1], reverse=True)
+
     except Exception as e:
         #FAIL_COUNT.inc()
         print('api:%s', e)
         print(traceback.format_exc())
     
 
-    return Response(response=json.dumps(outputs), status=200, mimetype="application/json")
+    return Response(response=json.dumps(output), status=200, mimetype="application/json")
     # return Rsp(predictions=results)
 
 

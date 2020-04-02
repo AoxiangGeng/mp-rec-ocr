@@ -28,7 +28,7 @@ location = '/home/pipline/aoxiang/ocr/Personal_Temporary_Repo/videoshots/6636999
  
 response = requests.post(test_url, data=location, headers=headers)
 
-rsp = sorted(response.text.encode('latin-1').decode('unicode_escape'), key = lambda x:x[1], reverse = True)
+rsp = response.text.encode('latin-1').decode('unicode_escape')
 print(rsp)
 # print(response.videoLocation)
 # for item in enumerate(response.predictions[:5]):
