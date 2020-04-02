@@ -95,15 +95,15 @@ class PSENetHandel():
         tensor = tensor.unsqueeze_(0)
         print(tensor.shape,tensor.device)
         print('开始识别图片 device : ', self.device)
-        tensor = tensor.to(self.device)
+        # tensor = tensor.to(self.device)
         print('喂入模型，进行预测')
         with torch.no_grad():
             # torch.cuda.synchronize()
             start = time.time()
             preds = self.net(tensor)
-
+            print('net 生成')
             preds, boxes_list,rects  =  pse_decode(preds[0], self.scale)
-
+            print('生成  preds')
             scale = (preds.shape[1] / w, preds.shape[0] / h)
             # print(scale)
             # preds, boxes_list = decode(preds,num_pred=-1)
